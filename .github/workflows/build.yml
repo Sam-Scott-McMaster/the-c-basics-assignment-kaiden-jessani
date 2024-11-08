@@ -1,4 +1,4 @@
-name: CI - Test bn Utility
+name: CI - Test convert Utility
 
 on:
   push:
@@ -14,16 +14,8 @@ jobs:
     - name: Build convert executable
       run: make
 
-    - name: Build ctest executable
-      run: make ctest
-
-    - name: Run Tests
-      run: ./test_script > test_results.txt
-
     - name: Run gcov
-      run: |
-        gcov *.c
-        mv *.gcov coverage/
+      run: make ctest; ./test_script >test_results.txt; gcov ctest-convert.c
 
     - name: Upload convert executable
       uses: actions/upload-artifact@v4
