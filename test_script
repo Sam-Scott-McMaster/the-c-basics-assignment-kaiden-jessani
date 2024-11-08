@@ -8,7 +8,6 @@
 #     test 'command' 'input file name' 'expected output file name' 'expected std error file name'
 #
 # Some example test cases are given. You should add more test cases.
-#
 # CAUTION: Uses temporary files named test_err.txt and test_out.txt
 # 
 # Sam Scott, McMaster University, 2024
