@@ -13,6 +13,9 @@ int main(int argc, char *argv[]) {
 
     if (argc == 1) {
         while (1) {
+            if (scanf("%ld", &n) == EOF) {
+                break; // End the loop if EOF is reached
+            }
             if (scanf("%ld", &n) != 1) {
                 // Handle non-long-int input
                 fprintf(stderr, "Error: Non-long-int token encountered.\n");
@@ -45,10 +48,13 @@ int main(int argc, char *argv[]) {
             return 1;
         }
         while (1) {
+            if (scanf("%ld", &n) == EOF) {
+                break; // End the loop if EOF is reached
+            }
             if (scanf("%ld", &n) != 1) {
                 // Handle non-long-int input
                 fprintf(stderr, "Error: Non-long-int token encountered.\n");
-				return 1;
+                return 1;
                 // Clear the input buffer
                 while (getchar() != '\n'); // Clear the invalid input
                 continue; // Prompt for input again
@@ -88,7 +94,7 @@ int main(int argc, char *argv[]) {
             }
             if (isNegative) {
                 printf("-%s\n", sum);
-				i = i - i - i;
+                i = i - i - i;
             } else {
                 printf("%s\n", sum);
             }
@@ -99,8 +105,8 @@ int main(int argc, char *argv[]) {
         min = atoi(argv[4]);
         max = atoi(argv[5]);
         if (base < 2 || base > 36) {
-			fprintf(stderr, "Usage: convert [-b BASE] [-r START FINISH] \n\t 1<BASE<37 \n\t START and FINISH are long integers. \n");
-			            return 1;
+            fprintf(stderr, "Usage: convert [-b BASE] [-r START FINISH] \n\t 1<BASE<37 \n\t START and FINISH are long integers. \n");
+            return 1;
         }
         for (long i = min; i <= max; i++) {
             if (i < 0) {
@@ -116,18 +122,15 @@ int main(int argc, char *argv[]) {
             }
             if (isNegative) {
                 printf("-%s\n", sum);
-				i = i - i - i;
+                i = i - i - i;
             } else {
                 printf("%s\n", sum);
             }
             isNegative = false;
         }
-    } 
-	else if(argc == 4)
-	{
-		
-	}
-	else {
+    } else if (argc == 4) {
+        // Handle other cases if needed
+    } else {
         fprintf(stderr, "Usage: convert [-b BASE] [-r START FINISH] \n\t 1<BASE<37 \n\t START and FINISH are long integers. \n");
         return 1;
     }
