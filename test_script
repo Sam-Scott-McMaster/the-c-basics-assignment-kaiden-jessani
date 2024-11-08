@@ -8,6 +8,7 @@
 #     test 'command' 'input file name' 'expected output file name' 'expected std error file name'
 #
 # Some example test cases are given. You should add more test cases.
+#
 # CAUTION: Uses temporary files named test_err.txt and test_out.txt
 # 
 # Sam Scott, McMaster University, 2024
@@ -35,7 +36,7 @@ declare -i fails=0
 ############################################
 test() {
     tc=tc+1
-
+    find . -name "*.gcda" -delete
     local COMMAND=$1
     local INP=$2
     local EX_OUT=$3
@@ -73,7 +74,6 @@ test() {
 
     echo "TC $tc Passed"
 }
-
 test './ctest' 'inp1.txt' 'ex_out1.txt' 'empty.txt'
 test './ctest -b 2' 'inp2.txt' 'ex_out2.txt' 'empty.txt'
 test './ctest -a' 'empty.txt' 'empty.txt' 'usage.txt'
