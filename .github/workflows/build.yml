@@ -5,7 +5,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
+  build-and-test:
     runs-on: ubuntu-latest
 
     steps:
@@ -13,18 +13,6 @@ jobs:
 
     - name: Build convert executable
       run: make
-
-    - name: Upload convert executable
-      uses: actions/upload-artifact@v4
-      with:
-        name: Convert Executable
-        path: ./convert
-
-  test:
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v4
 
     - name: Build ctest executable
       run: make ctest
@@ -36,6 +24,12 @@ jobs:
       run: |
         gcov *.c
         mv *.gcov coverage/
+
+    - name: Upload convert executable
+      uses: actions/upload-artifact@v4
+      with:
+        name: Convert Executable
+        path: ./convert
 
     - name: Upload Test Results
       if: ${{ always() }}
