@@ -11,6 +11,18 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    - name: Cache build outputs
+      uses: actions/cache@v3
+      with:
+        path: |
+          ./convert
+          ./ctest
+          ./convert.c.gcov
+          ./convert_to_base.c.gcov
+        key: ${{ runner.os }}-build-${{ github.sha }}
+        restore-keys: |
+          ${{ runner.os }}-build-
+
     - name: Build convert
       run: make
 
@@ -24,10 +36,7 @@ jobs:
       run: gcc --coverage -o ctest convert.c convert_to_base.c
 
     - name: Run tests and generate coverage
-      run: |
-        chmod +x test_script
-        ./test_script
-        gcov convert.c convert_to_base.c
+      run: make ctest; ./test_script >test_results.txt; gcov ctest-convert.c
 
     - name: Upload test results and coverage reports
       uses: actions/upload-artifact@v4
@@ -35,5 +44,4 @@ jobs:
         name: Test Results and Coverage
         path: |
           ./test_results.txt
-          ./convert.c.gcov
-          ./convert_to_base.c.gcov
+          ./ctest-convert.c.gcov
