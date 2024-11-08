@@ -1,0 +1,110 @@
+        -:    0:Source:convert.c
+        -:    0:Graph:ctest-convert.gcno
+        -:    0:Data:ctest-convert.gcda
+        -:    0:Runs:1
+        -:    1:#include <stdio.h>
+        -:    2:#include <stdlib.h>
+        -:    3:#include <string.h>
+        -:    4:#include <stdbool.h>
+        -:    5:#include "convert_to_base.h"
+        -:    6:
+        1:    7:int main(int argc, char *argv[]) {
+        -:    8:    long n;
+        1:    9:    int base = 16; // Default base
+        1:   10:    int min = 0, max = 0;
+        1:   11:    bool isNegative = false;
+        -:   12:    char sum[65]; // Assuming a maximum size for the sum array
+        -:   13:
+        1:   14:    if (argc == 1 || argc == 3) {
+        -:   15:        // Handle input for argc == 1 and argc == 3
+    #####:   16:        if (argc == 3) {
+    #####:   17:            base = atoi(argv[2]);
+    #####:   18:            if (base < 2 || base > 36) {
+    #####:   19:                fprintf(stderr, "Usage: convert [-b BASE] [-r START FINISH]\n");
+    #####:   20:                fprintf(stderr, "\t1 < BASE < 37\n");
+    #####:   21:                fprintf(stderr, "\tSTART and FINISH are long integers");
+    #####:   22:                return 1;
+        -:   23:            }
+        -:   24:        }
+    #####:   25:        while (1) {
+    #####:   26:            if (scanf("%ld", &n) == EOF) {
+    #####:   27:                break; // End the loop if EOF is reached
+        -:   28:            }
+    #####:   29:            if (n < 0) {
+    #####:   30:                isNegative = true;
+    #####:   31:                n = labs(n);
+        -:   32:            }
+    #####:   33:            int index = 0;
+    #####:   34:            if (n == 0) {
+    #####:   35:                strcpy(sum, "0");
+        -:   36:            } else {
+    #####:   37:                convert_to_base(n, base, sum, &index);
+    #####:   38:                sum[index] = '\0';
+        -:   39:            }
+    #####:   40:            if (isNegative) {
+    #####:   41:                printf("-%s\n", sum);
+        -:   42:            } else {
+    #####:   43:                printf("%s\n", sum);
+        -:   44:            }
+    #####:   45:            isNegative = false;
+        -:   46:        }
+       1*:   47:    } else if (argc == 4 && strcmp(argv[2], "-r") == 0) {
+    #####:   48:        min = atoi(argv[3]);
+    #####:   49:        max = atoi(argv[4]);
+    #####:   50:        for (long i = min; i <= max; i++) {
+    #####:   51:            if (i < 0) {
+    #####:   52:                isNegative = true;
+    #####:   53:                i = labs(i);
+        -:   54:            }
+    #####:   55:            int index = 0;
+    #####:   56:            if (i == 0) {
+    #####:   57:                strcpy(sum, "0");
+        -:   58:            } else {
+    #####:   59:                convert_to_base(i, base, sum, &index);
+    #####:   60:                sum[index] = '\0';
+        -:   61:            }
+    #####:   62:            if (isNegative) {
+    #####:   63:                printf("-%s\n", sum);
+        -:   64:            } else {
+    #####:   65:                printf("%s\n", sum);
+        -:   66:            }
+    #####:   67:            isNegative = false;
+        -:   68:        }
+        1:   69:    } else if (argc == 6) {
+    #####:   70:        base = atoi(argv[2]);
+    #####:   71:        min = atoi(argv[4]);
+    #####:   72:        max = atoi(argv[5]);
+    #####:   73:        if (base < 2 || base > 36) {
+    #####:   74:            fprintf(stderr, "Usage: convert [-b BASE] [-r START FINISH]\n");
+    #####:   75:            fprintf(stderr, "\t1 < BASE < 37\n");
+    #####:   76:            fprintf(stderr, "\tSTART and FINISH are long integers");
+    #####:   77:            return 1;
+        -:   78:        }
+    #####:   79:        for (long i = min; i <= max; i++) {
+    #####:   80:            if (i < 0) {
+    #####:   81:                isNegative = true;
+    #####:   82:                i = labs(i);
+        -:   83:            }
+    #####:   84:            int index = 0;
+    #####:   85:            if (i == 0) {
+    #####:   86:                strcpy(sum, "0");
+        -:   87:            } else {
+    #####:   88:                convert_to_base(i, base, sum, &index);
+    #####:   89:                sum[index] = '\0';
+        -:   90:            }
+    #####:   91:            if (isNegative) {
+    #####:   92:                printf("-%s\n", sum);
+        -:   93:            } else {
+    #####:   94:                printf("%s\n", sum);
+        -:   95:            }
+    #####:   96:            isNegative = false;
+        -:   97:        }
+        -:   98:    } else {
+        1:   99:        fprintf(stderr, "Usage: convert [-b BASE] [-r START FINISH]\n");
+        1:  100:        fprintf(stderr, "\t1 < BASE < 37\n");
+        1:  101:        fprintf(stderr, "\tSTART and FINISH are long integers");
+        1:  102:        return 1;
+        -:  103:    }
+        -:  104:
+    #####:  105:    return 0;
+        -:  106:}

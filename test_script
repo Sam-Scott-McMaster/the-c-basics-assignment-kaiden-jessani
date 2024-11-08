@@ -36,7 +36,7 @@ declare -i fails=0
 ############################################
 test() {
     tc=tc+1
-
+    find . -name "*.gcda" -delete
     local COMMAND=$1
     local INP=$2
     local EX_OUT=$3
@@ -74,10 +74,9 @@ test() {
 
     echo "TC $tc Passed"
 }
-
-test './convert' 'inp1.txt' 'ex_out1.txt' 'empty.txt'
-test './convert -b 2' 'inp2.txt' 'ex_out2.txt' 'empty.txt'
-test './convert -a' 'empty.txt' 'empty.txt' 'usage.txt'
+test './ctest' 'inp1.txt' 'ex_out1.txt' 'empty.txt'
+test './ctest -b 2' 'inp2.txt' 'ex_out2.txt' 'empty.txt'
+test './ctest -a' 'empty.txt' 'empty.txt' 'usage.txt'
 
 # clean up
 rm test_err.txt test_out.txt
