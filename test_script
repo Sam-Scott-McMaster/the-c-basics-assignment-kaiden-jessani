@@ -77,6 +77,10 @@ test() {
 test './ctest' 'inp1.txt' 'ex_out1.txt' 'empty.txt'
 test './ctest -b 2' 'inp2.txt' 'ex_out2.txt' 'empty.txt'
 test './ctest -a' 'empty.txt' 'empty.txt' 'usage.txt'
+test './ctest' 'inp3.txt' 'ex_out3.txt' 'empty.txt'
+test './ctest -r 10 15' 'inp4.txt' 'ex_out4.txt' 'empty.txt'
+test './ctest 1' 'empty.txt' 'empty.txt' 'usage.txt'
+
 
 # clean up
 rm test_err.txt test_out.txt

@@ -10,7 +10,6 @@ int main(int argc, char *argv[]) {
     int min = 0, max = 0;
     bool isNegative = false;
     char sum[65]; // Assuming a maximum size for the sum array
-
     if (argc == 1 || argc == 3) {
         // Handle input for argc == 1 and argc == 3
         if (argc == 3) {
@@ -44,29 +43,42 @@ int main(int argc, char *argv[]) {
             }
             isNegative = false;
         }
-    } else if (argc == 4 && strcmp(argv[2], "-r") == 0) {
-        min = atoi(argv[3]);
-        max = atoi(argv[4]);
-        for (long i = min; i <= max; i++) {
-            if (i < 0) {
-                isNegative = true;
-                i = labs(i);
+    } else if (argc == 4) {
+        fflush(stdout);
+        if(strcmp(argv[1], "-r") == 0)
+        {
+            min = atoi(argv[2]);
+            max = atoi(argv[3]);
+            for (long i = min; i <= max; i++) {
+                if (i < 0) {
+                    isNegative = true;
+                    i = labs(i);
+                }
+                int index = 0;
+                if (i == 0) {
+                    strcpy(sum, "0");
+                } else {
+                    convert_to_base(i, base, sum, &index);
+                    sum[index] = '\0';
+                }
+                if (isNegative) {
+                    printf("-%s\n", sum);
+                } else {
+                    printf("%s\n", sum);
+                }
+                isNegative = false;
             }
-            int index = 0;
-            if (i == 0) {
-                strcpy(sum, "0");
-            } else {
-                convert_to_base(i, base, sum, &index);
-                sum[index] = '\0';
-            }
-            if (isNegative) {
-                printf("-%s\n", sum);
-            } else {
-                printf("%s\n", sum);
-            }
-            isNegative = false;
         }
-    } else if (argc == 6) {
+        else
+        {
+            fprintf(stderr, "Usage: convert [-b BASE] [-r START FINISH]\n");
+            fprintf(stderr, "\t1 < BASE < 37\n");
+            fprintf(stderr, "\tSTART and FINISH are long integers");
+            return 1;
+        }
+            
+        }
+        else if (argc == 6) {
         base = atoi(argv[2]);
         min = atoi(argv[4]);
         max = atoi(argv[5]);
