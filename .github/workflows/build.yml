@@ -1,47 +1,36 @@
-name: CI Pipeline for convert.c
+name: CI - Test convert Utility
 
 on:
   push:
     branches: [ "main" ]
 
 jobs:
-  build_and_test:
+  test:
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v4
 
-    - name: Cache build outputs
-      uses: actions/cache@v3
-      with:
-        path: |
-          ./convert
-          ./ctest
-          ./convert.c.gcov
-          ./convert_to_base.c.gcov
-        key: ${{ runner.os }}-build-${{ github.sha }}
-        restore-keys: |
-          ${{ runner.os }}-build-
-
     - name: Build convert
       run: make
 
-    - name: Upload convert executable
-      uses: actions/upload-artifact@v4
-      with:
-        name: Convert Executable
-        path: ./convert
-
     - name: Build ctest with coverage
-      run: gcc --coverage -o ctest convert.c convert_to_base.c
+      run: make ctest
 
-    - name: Run tests and generate coverage
-      run: make ctest; ./test_script >test_results.txt; gcov ctest-convert.c
+    - name: Run Tests
+      run: make ctest; ./test_script > test_results.txt; gcov ctest-convert.c
 
-    - name: Upload test results and coverage reports
+    - name: Upload Test Results
+      if: ${{ always() }}
       uses: actions/upload-artifact@v4
       with:
-        name: Test Results and Coverage
+        name: Test Results
+        path: ./test_results.txt
+
+    - name: Upload Coverage Reports
+      if: ${{ always() }}
+      uses: actions/upload-artifact@v4
+      with:
+        name: Coverage Reports
         path: |
-          ./test_results.txt
           ./ctest-convert.c.gcov
