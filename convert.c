@@ -4,6 +4,7 @@
 #include <stdbool.h>
 #include "convert_to_base.h"
 
+// Function to print the help message
 void print_help() {
     printf("Usage: convert [-b BASE] [-r START FINISH]\n\n");
     printf("Options:\n");
@@ -29,11 +30,13 @@ int main(int argc, char *argv[]) {
     bool isNegative = false;
     char sum[65]; // Assuming a maximum size for the sum array
 
+    // Check if the user requested help
     if (argc == 2 && strcmp(argv[1], "--help") == 0) {
         print_help();
         return 0;
     }
 
+    // Check if the user specified a base
     if (argc == 3) {
         base = atoi(argv[2]);
         if (base < 2 || base > 36) {
@@ -44,6 +47,7 @@ int main(int argc, char *argv[]) {
         }
     }
 
+    // If no arguments or only base is specified, read numbers from standard input
     if (argc == 1 || argc == 3) {
         while (1) {
             if (scanf("%ld", &n) == EOF) {
