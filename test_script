@@ -75,9 +75,9 @@ test() {
     echo "TC $tc Passed"
 }
 
-test './ctest' 'inp1.txt' 'ex_out1.txt' 'empty.txt'
-test './ctest -b 2' 'inp2.txt' 'ex_out2.txt' 'empty.txt'
-test './ctest -a' 'empty.txt' 'empty.txt' 'usage.txt'
+test './convert' 'inp1.txt' 'ex_out1.txt' 'empty.txt'
+test './convert -b 2' 'inp2.txt' 'ex_out2.txt' 'empty.txt'
+test './convert -a' 'empty.txt' 'empty.txt' 'usage.txt'
 
 # clean up
 rm test_err.txt test_out.txt
