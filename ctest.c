@@ -22,7 +22,7 @@ int main(int argc, char *argv[]) {
                 return 1;
             }
         }
-
+        
         while (1) {
             if (scanf("%ld", &n) == EOF) {
                 break; // End the loop if EOF is reached
