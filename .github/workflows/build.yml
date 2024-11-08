@@ -1,24 +1,41 @@
-name: CI - Test convert Utility
+name: CI - Test bn Utility
 
 on:
   push:
     branches: [ "main" ]
 
 jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Build convert executable
+      run: make
+
+    - name: Upload convert executable
+      uses: actions/upload-artifact@v4
+      with:
+        name: Convert Executable
+        path: ./convert
+
   test:
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v4
 
-    - name: Build convert
-      run: make
-
-    - name: Build ctest with coverage
+    - name: Build ctest executable
       run: make ctest
 
     - name: Run Tests
-      run: make ctest; ./test_script > test_results.txt; gcov ctest-convert.c
+      run: ./test_script > test_results.txt
+
+    - name: Run gcov
+      run: |
+        gcov *.c
+        mv *.gcov coverage/
 
     - name: Upload Test Results
       if: ${{ always() }}
@@ -32,5 +49,4 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: Coverage Reports
-        path: |
-          ./ctest-convert.c.gcov
+        path: ./coverage/*.gcov
