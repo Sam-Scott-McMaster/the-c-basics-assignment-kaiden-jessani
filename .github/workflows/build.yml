@@ -5,7 +5,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
+  build_and_test:
     runs-on: ubuntu-latest
 
     steps:
@@ -19,12 +19,6 @@ jobs:
       with:
         name: Convert Executable
         path: ./convert
-
-  test:
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v4
 
     - name: Build ctest with coverage
       run: gcc --coverage -o ctest convert.c convert_to_base.c
